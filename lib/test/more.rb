@@ -15,12 +15,18 @@ module Test
 			@x += 1
 			puts "not ok #@x - #{msg}"
 		end
-		def assert(msg="") 
+		def assert(msg="")
 			if x = yield
 				ok "#{x} #{msg}"
 			else
 				not_ok "#{x} #{msg}"
 			end
+		rescue
+			not_ok "#$! #{msg}"
+		end
+		def assert_success(msg="")
+			x = yield
+			ok "#{x} #{msg}"
 		rescue
 			not_ok "#$! #{msg}"
 		end
