@@ -2,7 +2,7 @@ require "test/more/version"
 
 module Test
 	class More
-		def initialize(n=nil, s=STDOUT)
+		def initialize(n:nil, s:STDOUT)
 			@s = s
 			@n = n
 			@x = 0
