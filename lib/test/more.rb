@@ -6,7 +6,7 @@ module Test
 			@s = s
 			@n = n
 			@x = 0
-			puts "1..#@n" if @n
+			plan n: @n
 		end
 		def puts *args
 			@s.puts args
@@ -19,8 +19,11 @@ module Test
 			@x += 1
 			puts "not ok #@x - #{msg}"
 		end
+		def plan n:nil
+			puts 1..n if n
+		end
 		def done_testing
-			puts "1..#@x" unless @n
+			plan @x if not @n
 		end
 		class Utils
 			def initialize t
