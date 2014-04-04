@@ -19,11 +19,11 @@ module Test
 			@x += 1
 			puts "not ok #@x - #{msg}"
 		end
-		def plan n:nil
-			puts 1..n if n
+		def plan n: nil
+			puts "1..#{n}" if n
 		end
 		def done_testing
-			plan @x if not @n
+			plan n: @x unless @n
 		end
 		class Utils
 			def initialize t
