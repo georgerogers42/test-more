@@ -2,10 +2,14 @@ require "test/more/version"
 
 module Test
 	class More
-		def initialize(n=nil)
+		def initialize(n=nil, s=STDOUT)
+			@s = s
 			@n = n
 			@x = 0
 			puts "1..#@n" if @n
+		end
+		def puts *args
+			@s.puts args
 		end
 		def ok(msg="")
 			@x += 1
@@ -39,9 +43,9 @@ module Test
 			end
 			def assert_fail(msg="")
 				v = yield
-				@t.not_ok "#{v} #{msg}"
+				@t.not_ok "!#{v} #{msg}"
 			rescue
-				@t.ok "#$! #{msg}"
+				@t.ok "!#$! #{msg}"
 			end
 			def assert!(v, msg="")
 				if v
