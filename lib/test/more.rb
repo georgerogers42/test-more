@@ -11,20 +11,29 @@ module Test
 		def puts *args
 			@s.puts args
 		end
+
+		# Record test success.
 		def ok(msg="")
 			@x += 1
 			puts "ok #@x - #{msg}"
 		end
+
+		# Record test failure.
 		def not_ok(msg="")
 			@x += 1
 			puts "not ok #@x - #{msg}"
 		end
+
+		# Output test plan.
 		def plan n: nil
 			puts "1..#{n}" if n
 		end
+
+		# Output test plan based on tests executed.
 		def done_testing
 			plan n: @x unless @n
 		end
+
 		class Utils
 			def initialize t
 				@t = t
