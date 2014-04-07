@@ -46,8 +46,11 @@ module Test
 			def initialize t
 				@tester = t
 			end
+      def respond_to? m
+        super or tester.respond_to?(m)
+      end
       def method_missing m, *args, &blk
-        @tester.send(m, *args, &blk)
+        tester.send(m, *args, &blk)
       end
     end
 
