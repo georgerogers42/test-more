@@ -2,11 +2,11 @@ require "test/more/version"
 
 module Test
 	class More
-		def initialize(n:nil, s:STDOUT)
+		def initialize(plan:nil, s:STDOUT)
 			@s = s
-			@n = n
+			@n = plan
 			@x = 0
-			plan n: @n
+      output_plan @n
 		end
 		def puts *args
 			@s.puts args
@@ -25,45 +25,60 @@ module Test
 		end
 
 		# Output test plan.
-		def plan n: nil
-			puts "1..#{n}" if n
+		def plan
+      @n
 		end
+    def plan= n
+      @n = n
+    end
 
+    def output_plan p
+      puts "#{@n}"
+    end
 		# Output test plan based on tests executed.
 		def done_testing
-			plan n: @x unless @n
+			@n = 1..@x
+      output_plan @n
 		end
 
-		class Utils
+    module Utility
+      attr_reader :tester
 			def initialize t
-				@t = t
+				@tester = t
 			end
+      def method_missing m, *args, &blk
+        @tester.send(m, *args, &blk)
+      end
+    end
+
+		class Utils
+      include Utility
 			def assert(msg="")
 				if x = yield
-					@t.ok "#{x} #{msg}"
+					ok "#{x} #{msg}"
 				else
-					@t.not_ok "#{x} #{msg}"
+					not_ok "#{x} #{msg}"
 				end
 			rescue
-				@t.not_ok "#$! #{msg}"
+				not_ok "#$! #{msg}"
 			end
 			def assert_success(msg="")
 				x = yield
-				@t.ok "#{x} #{msg}"
+				ok "#{x} #{msg}"
 			rescue
-				@t.not_ok "#$! #{msg}"
+				not_ok "#$! #{msg}"
 			end
 			def assert_fail(msg="")
 				v = yield
-				@t.not_ok "!#{v} #{msg}"
+				not_ok "!#{v} #{msg}"
 			rescue
-				@t.ok "!#$! #{msg}"
+				ok "!#$! #{msg}"
 			end
 			def assert!(v, msg="")
 				if v
-					@t.ok "#{v} #{msg}"
+					ok "#{v} #{msg}"
 				else
-					@t.not_ok "#{v} #{msg}"
+					not_ok "#{v} #{msg}"
 				end
 			end
 		end
