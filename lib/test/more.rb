@@ -58,30 +58,30 @@ module Test
       include Utility
 			def assert(msg="")
 				if x = yield
-					ok "#{x} #{msg}"
+					ok "#{x} # #{msg}"
 				else
-					not_ok "#{x} #{msg}"
+					not_ok "#{x} # #{msg}"
 				end
 			rescue
-				not_ok "#$! #{msg}"
+				not_ok "#$! # #{msg}"
 			end
 			def assert_success(msg="")
 				x = yield
-				ok "#{x} #{msg}"
+				ok "#{x} # #{msg}"
 			rescue
-				not_ok "#$! #{msg}"
+				not_ok "#$! # #{msg}"
 			end
 			def assert_fail(msg="")
 				v = yield
-				not_ok "!#{v} #{msg}"
+				not_ok "!#{v} # #{msg}"
 			rescue
 				ok "!#$! #{msg}"
 			end
 			def assert!(v, msg="")
 				if v
-					ok "#{v} #{msg}"
+					ok "#{v} # #{msg}"
 				else
-					not_ok "#{v} #{msg}"
+					not_ok "#{v} # #{msg}"
 				end
 			end
 		end
